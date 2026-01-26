@@ -1,30 +1,33 @@
 import { useState, useEffect } from 'react';
-
+import Button from '../components/Button';
 import Badge from "../components/Badge";
 import NavButton from "../components/NavButton";
 import profileImg from '../assets/profile.jpg';
 import projectPlaceholder from '../assets/placeholder.png';
 import ProjectCard from "../components/ProjectCard";
-import { HiDownload } from "react-icons/hi";
-import { SiGithub, SiLinkedin, SiGmail, SiInstagram } from 'react-icons/si';
-import { FiArrowUpRight } from 'react-icons/fi';
+import SocialButton from '../components/SocialButton';
+import Display from '../components/Display';
+import ContactCard from '../components/ContactCard';
 
 const HomePage = () => {
     const [repoCount, setRepoCount] = useState(0);
 
     useEffect(() => {
+        if (!window.location.hash) {
+        window.location.hash = "#home";
+        }
+    }, []);
+
+    useEffect(() => {
         fetch('https://api.github.com/users/Fariasartuur')
             .then(response => response.json())
             .then(data => {
-                console.log(data);
                 if (data.public_repos) {
                     setRepoCount(data.public_repos);
                 }
             })
             .catch(error => console.error('Erro ao buscar dados do GitHub:', error));
     }, []);
-
-
 
     return (
         <div className="bg-slate-950 min-h-screen text-white flex flex-col items-center">
@@ -38,21 +41,17 @@ const HomePage = () => {
             <main className="mt-32 w-full max-w-4xl px-6">
                 <section id="home" className="min-h-screen flex flex-col items-center justify-center relative overflow-hidden">
 
-                    {/* Manchas de luz de fundo (Blurry Blobs) - dão profundidade ao site */}
-                    <div className="absolute top-1/4 -left-20 w-72 h-72 bg-purple-600/10 rounded-full blur-[120px] -z-10"></div>
-                    <div className="absolute bottom-1/4 -right-20 w-96 h-96 bg-fuchsia-600/10 rounded-full blur-[120px] -z-10"></div>
-
                     <div className="grid md:grid-cols-2 gap-12 items-center w-full">
-                        {/* Lado Esquerdo: Textos e Ações */}
+
                         <div className="flex flex-col space-y-6 animate-fade-in">
-                            <div className="space-y-2">
+                            <header className="space-y-2">
                                 <h1 className="text-6xl md:text-7xl font-bold tracking-tighter leading-tight">
                                     Olá, eu sou <br />
                                     <span className="bg-linear-to-r from-purple-400 to-fuchsia-500 bg-clip-text text-transparent">
                                         Artur!
                                     </span>
                                 </h1>
-                            </div>
+                            </header>
 
                             <p className="text-slate-400 text-xl leading-relaxed max-w-lg">
                                 Estudante de Engenharia de Computação focado em criar
@@ -60,28 +59,12 @@ const HomePage = () => {
                                 interfaces modernas com <span className="text-white">React</span>.
                             </p>
 
-                            {/* Redes Sociais e Botão de CV */}
                             <div className="flex flex-col sm:flex-row items-center gap-6 pt-4">
-                                <a
-                                    href="/curriculo-artur.pdf"
-                                    download="Curriculo_Artur_Eng_Computacao.pdf"
-                                    className="px-8 py-4 bg-purple-600 hover:bg-white rounded-xl text-white 
-                               hover:text-purple-600 border border-purple-600 font-bold shadow-lg 
-                               shadow-purple-700/30 transition-all duration-300 flex items-center justify-center group w-full sm:w-fit"
-                                >
-                                    Download CV
-                                    <HiDownload className="ml-2 size-5 group-hover:bounce" />
-                                </a>
+                                <Button href="/Curriculo_Artur_Eng_Computacao.pdf" download="Curriculo_Artur_Eng_Computacao.pdf" label="Download CV" iconName="download"/>
 
                                 <div className="flex items-center gap-4">
-                                    <a href="https://github.com/Fariasartuur" target="_blank"
-                                        className="p-3 bg-slate-900 border border-purple-700/30 rounded-xl hover:border-purple-500 hover:text-purple-400 transition-all shadow-xl">
-                                        <SiGithub size={24} />
-                                    </a>
-                                    <a href="https://www.linkedin.com/in/fariasartuur/" target="_blank"
-                                        className="p-3 bg-slate-900 border border-purple-700/30 rounded-xl hover:border-purple-500 hover:text-purple-400 transition-all shadow-xl">
-                                        <SiLinkedin size={24} />
-                                    </a>
+                                    <SocialButton href="https://github.com/Fariasartuur" iconName="github" />
+                                    <SocialButton href="https://www.linkedin.com/in/fariasartuur/" iconName="linkedin" />
                                 </div>
                             </div>
                         </div>
@@ -105,15 +88,8 @@ const HomePage = () => {
                         </div>
 
                         <div className="grid grid-cols-2 gap-4">
-                            <div className="p-4 bg-purple-900/10 border border-purple-700/20 rounded-xl text-center">
-                                <span className="text-purple-400 font-bold text-2xl">7º</span>
-                                <p className="text-xs text-slate-500 uppercase">Semestre</p>
-                            </div>
-                            <div className="p-4 bg-purple-900/10 border border-purple-700/20 rounded-xl text-center">
-                                <span className="text-purple-400 font-bold text-2xl">{repoCount}+</span>
-                                <p className="text-xs text-slate-500 uppercase">Repositórios</p>
-                            </div>
-                            {/* Adicione mais cards de fatos aqui */}
+                            <Display number="7" label="Semestres" />
+                            <Display number={repoCount+"+"} label="Repositórios" />
                         </div>
                     </div>
 
@@ -167,58 +143,19 @@ const HomePage = () => {
                         </p>
                     </div>
 
-                    {/* Grid de Contatos */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-3xl m-0 p-0">
-
-                        {/* Card de Email */}
-                        <a href="mailto:arturfarias49@gmail.com" className="w-full group p-6 bg-purple-900/10 border border-purple-700/30 rounded-2xl hover:border-purple-500 transition-all duration-300">
-                            <div className="flex justify-between items-start mb-4">
-                                <SiGmail size={32} className="text-purple-500" />
-                                <FiArrowUpRight className="text-slate-500 group-hover:text-white transition-colors" />
-                            </div>
-                            <h3 className="text-white font-semibold">Email</h3>
-                            <p className="break-all text-slate-500 text-sm">arturfarias49@gmail.com</p>
-                        </a>
-
-                        {/* Card de LinkedIn */}
-                        <a href="https://linkedin.com/in/fariasartuur" target="_blank" className="w-full group p-6 bg-purple-900/10 border border-purple-700/30 rounded-2xl hover:border-purple-500 transition-all duration-300">
-                            <div className="flex justify-between items-start mb-4">
-                                <SiLinkedin size={32} className="text-purple-500" />
-                                <FiArrowUpRight className="text-slate-500 group-hover:text-white transition-colors" />
-                            </div>
-                            <h3 className="text-white font-semibold">LinkedIn</h3>
-                            <p className="text-slate-500 text-sm">in/fariasartuur</p>
-                        </a>
-
-                        {/* Card de GitHub */}
-                        <a href="https://github.com/Fariasartuur" target="_blank" className="w-full group p-6 bg-purple-900/10 border border-purple-700/30 rounded-2xl hover:border-purple-500 transition-all duration-300">
-                            <div className="flex justify-between items-start mb-4">
-                                <SiGithub size={32} className="text-purple-500" />
-                                <FiArrowUpRight className="text-slate-500 group-hover:text-white transition-colors" />
-                            </div>
-                            <h3 className="text-white font-semibold">GitHub</h3>
-                            <p className="text-slate-500 text-sm">@Fariasartuur</p>
-                        </a>
-
-                        {/* Card do Instagram */}
-                        <a href="https://instagram.com/fariasartuur" target="_blank" className="w-full group p-6 bg-purple-900/10 border border-purple-700/30 rounded-2xl hover:border-purple-500 transition-all duration-300">
-                            <div className="flex justify-between items-start mb-4">
-                                <SiInstagram size={32} className="text-purple-500" />
-                                <FiArrowUpRight className="text-slate-500 group-hover:text-white transition-colors" />
-                            </div>
-                            <h3 className="text-white font-semibold">Instagram</h3>
-                            <p className="text-slate-500 text-sm">@fariasartuur</p>
-                        </a>
+                        <ContactCard href="mailto:arturfarias49@gmail.com" label="Email" info="arturfarias49@gmail.com" iconName="gmail" />
+                        <ContactCard href="https://www.linkedin.com/in/fariasartuur/" label="LinkedIn" info="/in/fariasartuur/" iconName="linkedin" />
+                        <ContactCard href="https://github.com/Fariasartuur" label="GitHub" info="@Fariasartuur" iconName="github" />
+                        <ContactCard href="https://instagram.com/fariasartuur" label="Instagram" info="@fariasartuur" iconName="instagram" />
                     </div>
 
-                    {/* Rodapé Simples */}
                     <footer className="mt-32 text-slate-600 text-sm">
                         <p>© 2026 Artur. Desenvolvido com React & Tailwind.</p>
                     </footer>
                 </section>
 
             </main>
-
         </div>
     );
 };
