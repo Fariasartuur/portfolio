@@ -16,7 +16,7 @@ Este é o repositório do meu portfólio pessoal. Desenvolvido com uma estética
 - Layout: Totalmente responsivo para Mobile e Desktop.
 
 ## 📦 Como rodar o projeto localmente
-1. Clone o repositório: `git clone https://github.com/Fariasartuur/seu-repo.git`
+1. Clone o repositório: `git clone https://github.com/Fariasartuur/portfolio.git`
 2. Instale as dependências: `npm install`
 3. Inicie o servidor: `npm run dev`
 
