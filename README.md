@@ -2,7 +2,7 @@
 
 Este é o repositório do meu portfólio pessoal. Desenvolvido com uma estética moderna (Dark & Purple) focada em performance e experiência do usuário.
 
-🔗 **Confira o site online:** [https://fariasartuur.github.io/seu-repo](https://fariasartuur.github.io/seu-repo)
+🔗 **Confira o site online:** [https://fariasartuur.github.io/portfolio](https://fariasartuur.github.io/portfolio)
 
 ## 🛠️ Tecnologias Utilizadas
 - **React** + **Vite** (Frontend)
